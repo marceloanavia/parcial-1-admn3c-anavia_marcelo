@@ -1,0 +1,184 @@
+* {padding: 0; margin: 0; box-sizing: border-box;}
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500&family=Inter&display=swap');
+/* navbar y welcome */
+nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem;
+    align-items: center;
+
+}
+
+header h2 {
+    padding: 2rem;
+    text-align: center;
+    color: white;
+    text-shadow: #6e6e6e 2px 2px;
+    background-image: url('img/servidor.jpg');
+    margin: 0;
+}
+
+
+
+/* BOTON LOGIN */
+.button-7 {
+  background-color: #6e6e6e;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  box-shadow: rgba(255, 255, 255, .4) 0 1px 0 0 inset;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  /*font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;*/
+  font-size: 13px;
+  line-height: 1.15385;
+  margin: 0;
+  outline: none;
+  padding: 8px .8em;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.button-7:hover,
+.button-7:focus {
+  background-color: rgb(146, 146, 146);
+}
+
+.button-7:focus {
+  box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+}
+
+.button-7:active {
+  background-color: #949494;
+  box-shadow: none;
+}
+
+/* PANEL DE CONTROL */
+.contenedor-seccion {
+    padding: 2rem;
+}
+
+.ventana {
+    border-radius: 1rem;
+    text-align: center;
+    width: 80vw;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: aliceblue;
+    position: relative;
+    box-shadow: 0px 0px 37px -4px rgba(0,0,0,0.33);
+    -webkit-box-shadow: 0px 0px 37px -4px rgba(0,0,0,0.33);
+    -moz-box-shadow: 0px 0px 37px -4px rgba(0,0,0,0.33);
+}
+
+.ventana h2 {
+    font-size:medium;
+    color: grey;
+}
+
+/* SECCION TIENDA */
+
+.cerrar {
+    width: 32px;
+    height: 32px;
+    border-radius: 100%;
+    position: absolute;
+    top: 1.3rem;
+    right: 3%;
+}
+
+
+/* CATALOGO */
+.catalogo{
+    padding: 1rem;
+}
+.productos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+   
+
+
+}
+
+.productos article {
+    margin: 2rem;
+    width: 300px;
+    box-shadow: 0px 0px 37px -4px rgba(0,0,0,0.33);
+    -webkit-box-shadow: 0px 0px 37px -4px rgba(0,0,0,0.33);
+    -moz-box-shadow: 0px 0px 37px -4px rgba(0,0,0,0.33);
+
+    border-radius: 1.5rem;
+}
+
+.producto-datos {
+    padding: 1rem;
+
+
+}
+
+
+
+
+.icon-store{
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background-position: center; 
+    background-repeat: no-repeat;
+    background-size: cover; 
+    background-image: url('img/store.svg');
+}
+.icon-calc{
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background-position: center; 
+    background-repeat: no-repeat;
+    background-size: cover; 
+    background-image: url('img/calc.svg');
+}
+.icon-set{
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background-position: center; 
+    background-repeat: no-repeat;
+    background-size: cover; 
+    background-image: url('img/set.svg');
+}
+img{
+    border-top-left-radius: 1.5rem;
+    border-top-right-radius: 1.5rem;
+}
+
+.refresh{
+    display: block;
+    width: 35px;
+    height: 35px;
+    background-image:url('img/refresh-arrow.png');
+    background-position: center; 
+    background-repeat: no-repeat;
+    background-size: cover; 
+    margin-top: .6rem;
+}
+
+footer{
+    padding: 2rem;
+    color: white;
+    background-color: #949494;
+}
+
+.modal-dialog {
+    box-shadow: 0px 0px 37px -4px rgba(0,0,0,0.33);
+    -webkit-box-shadow: 0px 0px 37px -4px rgba(0,0,0,0.33);
+    -moz-box-shadow: 0px 0px 37px -4px rgba(0,0,0,0.33);
+}

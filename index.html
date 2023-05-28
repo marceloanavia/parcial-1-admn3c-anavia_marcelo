@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pianos (Modo Administrador)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="index.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script src="./components/login-modal.js"></script>
+    
+</head>
+<body>
+
+<div id="contenedor">
+    <header :style="fondo">
+    <nav style="display: flex;">
+        <div><h1 :style="estiloFuente"><span :style="tipografia">Pianos Longchamps</span></h1>
+        <p :style="estiloFuente"><span :style="tipografia">Los mejores pianos usados</span></p></div>
+        <login-modal
+            @nombreingresado="cargarNombre"
+            @authenticated="authenticated"
+            :panel-login-visible="panelLoginVisible"
+            :ocultar-panel-login="ocultarPanelLogin"
+            :iniciar-sesion="iniciarSesion"
+        ></login-modal>
+        <form @submit.prevent="envioDeInformacion">
+            <button @click="toogleLogin" class="button-7">{{login ? 'Cerrar sesión' : 'Iniciar sesión'}}</button>
+            
+        </form>
+    </nav>
+    <h2 v-show="login">Bienvenido Administrador {{nombreCargado}}</h2>
+    </header>
+    <main>
+
+    
+
+    <div v-show="login" class="contenedor-seccion">
+        <div class="ventana">
+            <h2>Panel de control</h2>
+            <hr>
+            <div style="display: flex; justify-content: space-evenly; text-align: center;">
+                <div><a href="" class="icon-store" @click.prevent="toggleTienda()"></a> <p>Productos</p></div>
+                <div><a href="" class="icon-set" @click.prevent="toggleApariencia()"></a> <p>Apariencia</p></div>
+                <div><a href="" class="icon-calc" @click.prevent="togglePrecios()"></a> <p>Precios</p></div>
+            </div>
+        </div>
+    </div>
+
+    <div v-show="login" v-if="tienda" class="contenedor-seccion"> 
+        <div class="ventana">
+            <h2>Ingresar productos a la database</h2><button class="cerrar" @click.prevent="toggleTienda()">X</button>
+            <hr>
+        <form @submit.prevent="envioDeInformacion" v-show="login">
+            <label>Titulo</label>
+            <input type="text" id="titulo" required>
+            <hr>
+            <label>Descripción</label>
+            <input type="text" id="descripcion" required> 
+            <hr>
+            <label>Precio</label>
+            <input type="number" id="precio" required>
+            <hr>
+            <label>URL de imagen</label>
+            <input type="text" id="imagen" required>
+            <hr>
+            <button @click="agregarPiano" class="button-7">Crear</button><!--Cancelar submit @submit.prevent--><!--let piano + 1 = new Piano(ultimo numero + 1, bind imagen, bind titulo, bind descripcion);-->
+        </form>
+        </div>
+    </div>
+    
+    <div v-show="login" v-if="apariencia" class="contenedor-seccion">
+        <div class="ventana">
+            <h2>Apariencia</h2>
+            <button @click.prevent="toggleApariencia()" class="cerrar">X</button>
+            <hr>
+            <h3>Fuente</h3>
+            <div class="d-flex justify-content-center">
+                <p class="p-3">Color de fuente actual: "{{estiloFuente.color}}" </p><a @click.prevent="cambiarFuente" class="refresh"></a>
+            </div>
+            <div class="d-flex justify-content-center">
+                <p class="p-3">Estilo de fuente actual: "{{tipografia.fontFamily}}"</p> <a @click.prevent="cambiarTipografia" class="refresh"></a>
+            </div>
+            <h3>Fondo</h3>
+            <div class="d-flex justify-content-center">
+                <p class="p-3">Fondo de la página actual: "{{fondo.backgroundColor}}"</p> <a @click.prevent="cambiarFondo" class="refresh"></a>
+            </div>
+            <h3>Diseño</h3>
+            <div class="d-flex justify-content-center">
+                <p class="p-3">Diseño de tienda actual: "{{flex.flexDirection}}"</p> <a @click.prevent="cambiarFlex" class="refresh"></a>
+            </div>
+
+        </div>
+    </div>
+    <div v-show="login" v-if="precios" class="contenedor-seccion">
+        <div class="ventana">
+        <h2>Administrador de precios</h2><button class="cerrar" @click.prevent="togglePrecios()">X</button>
+        <hr>
+        <button class="button-7" @click.prevent="toggleBaratos()">Usados baratos</button> <button class="button-7" @click.prevent="toggleNuevos()">Nuevos</button> <button class="button-7" @click.prevent="toggleTodos()">Todos</button>
+
+        <div v-if="baratos">
+            <h3 style="margin-top: 1rem;"><i>(Mostrando solo pianos baratos)</i></h3><hr>
+        <article v-for="piano of pianos" v-if="piano.precio<400">
+            <div v-if="piano.enable" style="display:flex; justify-content: space-around;" class="p-3"><hr>
+                <div><p>ID = {{piano.id}} - Nombre = {{piano.titulo}}</p>
+                </div>
+                <input type="number" v-model="piano.precio" style="padding-left:.5rem;">
+            </div>
+        </article>
+        </div>
+
+        <div v-if="nuevos">
+        <h3 style="margin-top: 1rem;"><i>(Mostrando solo pianos nuevos)</i></h3><hr>
+        <article v-for="piano of pianos" v-if="piano.precio >= 400&& piano.precio < 800">
+            <div v-if="piano.enable" style="display:flex; justify-content: space-around;" class="p-3"><hr>
+                <div><p>ID = {{piano.id}} - Nombre = {{piano.titulo}}</p>
+                </div>
+                <input type="number" v-model="piano.precio" style="padding-left:.5rem;">
+            </div>
+        </article>
+        </div>
+
+        <div v-if="todos"><hr>
+        <article v-for="piano of pianos">
+            <div v-if="piano.enable" style="display:flex; justify-content: space-around;" class="p-3"><hr>
+                <div><p>ID = {{piano.id}} - Nombre = {{piano.titulo}}</p>
+                </div>
+                <input type="number" v-model="piano.precio" style="padding-left:.5rem;">
+            </div>
+        </article>
+        </div>
+
+
+        <hr>
+        <button v-show="login" @click="guardarCambios" class="button-7">Guardar cambios</button>
+        </div>
+    </div>
+
+    
+    <div class="catalogo" :style="fondo">
+        <div style="margin: 2rem; display: flex; justify-content: space-between;">
+            <h2 :style="estiloFuente"><span :style="tipografia">Tienda <i v-show="login">(vista previa)</i></span></h2>
+            <div>
+                <button v-show="login" @click="guardarCambios" class="button-7">Guardar cambios</button>
+                <button v-show="login" @click="recuperarPianos" class="button-7">Recuperar pianos</button>
+            </div>
+        </div>
+        <div class="productos" :style="flex">
+
+            <article v-for="piano of pianos"><div v-if="piano.enable"><img :src="piano.imagen" style="object-fit: cover;" width="300px" height="300px"><div class="producto-datos"><h1 :style="estiloFuente"><span :style="tipografia">{{piano.titulo}}</span></h1><p :style="estiloFuente"><span :style="tipografia">{{piano.descripcion}}</span></p><p :style="estiloFuente"><span :style="tipografia">${{piano.precio}}</span></p><button class="button-7" v-show="login" @click="borrarPiano(piano.id)">Borrar</button></div></div></article>
+        </div>
+
+
+    </div>
+    </main>
+
+    <footer>
+        <p style="text-align: center;">Marcelo Anavia - Parcial 1</p>
+    </footer>
+</div>
+
+<script src="index.js"></script>
+
+</body>
